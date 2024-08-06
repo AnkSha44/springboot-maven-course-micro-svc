@@ -35,5 +35,13 @@ pipeline{
                  sh 'docker build -t ankitsharma44/spring-petclinic:latest .'
       }
     }
+     stage('Docker Push') {
+        steps {
+          withCredentials([usernamePassword(credentialsId: 'dockeracess', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          sh 'docker push ankitsharma44/spring-petclinic:latest'
+        }
+      }
+
 }
 }
